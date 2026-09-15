@@ -1,0 +1,6 @@
+{
+  "name": "FitTrack",
+  "description": "FitTrack health and fitness platform with welcome onboarding screen, workout and nutrition logs, and real-time activity metrics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
