@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Flame } from 'lucide-react';
 import heroSkyBg from '../assets/images/hero_sky_clouds_1789374322335.jpg';
+import appLogo from '../assets/images/app_logo.svg';
 
 interface HeroLandingSectionProps {
   onGetStarted?: () => void;
@@ -91,19 +92,14 @@ export const HeroLandingSection: React.FC<HeroLandingSectionProps> = ({
           {/* Circular Brand Logo Icon Badge */}
           <button
             onClick={() => onNavClick?.('Programs')}
-            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white flex items-center justify-center text-[#111215] shadow-xs hover:scale-105 active:scale-95 transition-transform shrink-0"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white flex items-center justify-center text-[#111215] shadow-xs hover:scale-105 active:scale-95 transition-transform shrink-0 p-1"
             aria-label="FitTrack Logo"
           >
-            {/* FitTrack lightning circular emblem */}
-            <svg
-              className="w-4 h-4 text-[#111215]"
-              viewBox="0 0 320 320"
-              fill="currentColor"
-            >
-              <path d="M 125 36 C 68 45 24 94 24 160 C 24 230 78 285 146 288 L 143 252 C 94 249 56 209 56 160 C 56 114 88 77 131 70 Z" />
-              <path d="M 195 36 C 252 45 296 94 296 160 C 296 230 242 285 174 288 L 177 252 C 226 249 264 209 264 160 C 264 114 232 77 189 70 Z" />
-              <path d="M 174 20 L 130 144 L 178 152 L 140 274 L 188 184 L 142 174 Z" />
-            </svg>
+            <img
+              src={appLogo}
+              alt="FitTrack Logo"
+              className="w-4 h-4 sm:w-5 sm:h-5 object-contain"
+            />
           </button>
 
           {/* Nav Links */}

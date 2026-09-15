@@ -30,23 +30,38 @@ export function AuthProvider({ children }) {
         return;
       }
 
-      const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5050/api';
+      const API_BASE = import.meta.env.VITE_API_BASE || '/api';
       const response = await fetch(`${API_BASE}/users/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       if (response.ok) {
         const data = await response.json();
-        setUser(data.user);
-        localStorage.setItem('user', JSON.stringify(data.user));
+        if (data.user) {
+          setUser(data.user);
+          localStorage.setItem('user', JSON.stringify(data.user));
+        }
       } else {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('user');
-        setUser(null);
+        // Fallback to local user if available
+        const saved = localStorage.getItem('user');
+        if (saved) {
+          try {
+            setUser(JSON.parse(saved));
+          } catch {
+            setUser(null);
+          }
+        }
       }
     } catch (error) {
-      console.error('Failed to fetch user:', error);
+      // Offline fallback: load cached user without throwing or logging uncaught errors
+      const saved = localStorage.getItem('user');
+      if (saved) {
+        try {
+          setUser(JSON.parse(saved));
+        } catch {
+          setUser(null);
+        }
+      }
     } finally {
       setLoading(false);
     }

@@ -3,8 +3,9 @@ import { motion } from 'motion/react';
 import { GoogleIcon } from './icons/BrandIcons';
 import { ArrowLeft, AlertCircle } from 'lucide-react';
 import authBgImage from '../assets/images/736f8c69c57e8174bab610b31793f5cd.jpg';
+import appLogo from '../assets/images/app_logo.svg';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5050/api';
+const API_BASE = import.meta.env.VITE_API_BASE || '/api';
 
 interface SignUpPageProps {
   onSignUpSuccess: (method: 'credentials' | 'google') => void;
@@ -100,8 +101,11 @@ export const SignUpPage: React.FC<SignUpPageProps> = ({
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="w-full flex flex-col"
         >
-          {/* Headings */}
-          <div className="text-center mb-6">
+          {/* Headings with App Logo */}
+          <div className="text-center mb-6 flex flex-col items-center">
+            <div className="w-12 h-12 rounded-2xl bg-white/40 dark:bg-white/10 backdrop-blur-md border border-white/60 p-2.5 shadow-sm mb-3 flex items-center justify-center">
+              <img src={appLogo} alt="FitTrack Logo" className="w-full h-full object-contain" />
+            </div>
             <h1 className="text-[28px] sm:text-[32px] font-semibold text-slate-900 tracking-tight">
               Create Account
             </h1>

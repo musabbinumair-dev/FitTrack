@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   Clock,
   Flame,
@@ -185,7 +185,7 @@ export const WorkoutsRoutinesPage: React.FC<WorkoutsRoutinesPageProps> = ({
   const [activeSessionTitle, setActiveSessionTitle] = useState('Upper Body Strength');
   const [activeRoutineData, setActiveRoutineData] = useState<any>(null);
 
-  const { weightUnit, energyUnit, formatEnergy, formatWeight } = useUnits();
+  const { weightUnit, setWeightUnit, energyUnit, formatEnergy, formatWeight } = useUnits();
 
   // Routines Filter Bar State
   const [routineSearchQuery, setRoutineSearchQuery] = useState('');

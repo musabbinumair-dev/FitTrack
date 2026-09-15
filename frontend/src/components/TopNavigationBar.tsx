@@ -43,6 +43,7 @@ interface TopNavigationBarProps {
   onNavigateToLogin?: () => void;
   userRole?: UserRole;
   onOpenAdminPanel?: () => void;
+  onOpenNotifications?: () => void;
 }
 
 const SEARCH_ITEMS = [
@@ -219,11 +220,13 @@ export const TopNavigationBar: React.FC<TopNavigationBarProps> = ({
   onMarkNotificationsRead,
   isDarkMode = false,
   onToggleTheme,
+  onOpenQuickLog,
   searchQuery = '',
   onSearchChange,
   onSignOut,
   userRole,
   onOpenAdminPanel,
+  onOpenNotifications,
 }) => {
   const { user } = useAuth();
   const [showNotifications, setShowNotifications] = useState(false);
@@ -451,7 +454,11 @@ export const TopNavigationBar: React.FC<TopNavigationBarProps> = ({
             <button
               id="top-notification-bell"
               onClick={() => {
-                setShowNotifications(!showNotifications);
+                if (onOpenNotifications) {
+                  onOpenNotifications();
+                } else {
+                  setShowNotifications(!showNotifications);
+                }
                 setShowProfileMenu(false);
                 setShowSearchInput(false);
               }}
@@ -465,7 +472,9 @@ export const TopNavigationBar: React.FC<TopNavigationBarProps> = ({
             >
               <Bell className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
               {/* Lime Green Notification Dot */}
-              <span className="absolute top-1.5 right-1.5 sm:top-2.5 sm:right-2.5 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#C4FA2A] rounded-full ring-2 ring-white dark:ring-slate-900 shadow-xs" />
+              {unreadCount > 0 && (
+                <span className="absolute top-1.5 right-1.5 sm:top-2.5 sm:right-2.5 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#C4FA2A] rounded-full ring-2 ring-white dark:ring-slate-900 shadow-xs" />
+              )}
             </button>
 
             {/* Notification Dropdown Panel */}

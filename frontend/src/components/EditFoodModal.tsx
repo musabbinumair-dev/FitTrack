@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { X, Trash2, ChevronDown } from 'lucide-react';
 import { MealType } from '../types/fitness';
 import { useUnits } from '../context/UnitContext';

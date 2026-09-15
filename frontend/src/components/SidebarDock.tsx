@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { UserRole } from '../types/fitness';
+import appLogo from '../assets/images/app_logo.svg';
 
 interface SidebarDockProps {
   activeTab: string;
@@ -83,13 +84,15 @@ export const SidebarDock: React.FC<SidebarDockProps> = ({
         {/* TOP SECTION: Clean Lucide Brand Logo + Navigation Stack */}
         {/* ========================================================================= */}
         <div className="flex flex-col items-center gap-7 w-full">
-          {/* Brand Logo: Clean Lucide Zap Icon */}
+          {/* Brand Logo: Clean Official FitTrack App Icon */}
           <button
             id="sidebar-brand-logo"
-            className="w-11 h-11 rounded-full bg-[#C4FA2A] flex items-center justify-center cursor-pointer group focus:outline-none transition-transform hover:scale-105 shadow-sm"
+            onClick={() => onTabChange('dashboard')}
+            className="w-11 h-11 rounded-2xl bg-white/10 dark:bg-white/5 border border-white/15 flex items-center justify-center cursor-pointer group focus:outline-none transition-transform hover:scale-105 shadow-sm p-2"
             aria-label="FitTrack Home"
+            title="FitTrack Home"
           >
-            <Sparkles className="w-5 h-5 text-[#131418] stroke-[2.5]" />
+            <img src={appLogo} alt="FitTrack Logo" className="w-7 h-7 object-contain drop-shadow-xs" />
           </button>
 
           {/* Upper Navigation Stack */}

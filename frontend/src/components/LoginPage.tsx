@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { GoogleIcon } from './icons/BrandIcons';
-import { ArrowLeft, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, AlertCircle, User, Shield } from 'lucide-react';
 import authBgImage from '../assets/images/736f8c69c57e8174bab610b31793f5cd.jpg';
+import appLogo from '../assets/images/app_logo.svg';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5050/api';
+const API_BASE = import.meta.env.VITE_API_BASE || '/api';
 
 interface LoginPageProps {
   onLoginSuccess: (method: 'credentials' | 'google') => void;
@@ -103,6 +104,37 @@ export const LoginPage: React.FC<LoginPageProps> = ({
     }
   };
 
+  const handleGoToUserPanel = () => {
+    localStorage.setItem('accessToken', 'demo_user_access_token');
+    localStorage.setItem('refreshToken', 'demo_user_refresh_token');
+    localStorage.setItem(
+      'user',
+      JSON.stringify({
+        _id: 'demo_user_id',
+        username: 'Demo User',
+        email: 'alex.morgan@example.com',
+        role: 'user',
+        isOnboardingCompleted: false,
+      })
+    );
+    onLoginSuccess('credentials');
+  };
+
+  const handleGoToAdminPanel = () => {
+    localStorage.setItem('accessToken', 'demo_admin_access_token');
+    localStorage.setItem('refreshToken', 'demo_admin_refresh_token');
+    localStorage.setItem(
+      'user',
+      JSON.stringify({
+        _id: 'demo_admin_id',
+        username: 'Admin Demo',
+        email: 'admin@fittrack.com',
+        role: 'admin',
+      })
+    );
+    onLoginSuccess('credentials');
+  };
+
   return (
     <div
       id="fittrack-login-screen"
@@ -130,6 +162,31 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         </button>
       )}
 
+      {/* Top Quick Navigation to User & Admin Panels */}
+      <div className="absolute top-6 right-6 z-20 flex items-center p-1 rounded-full bg-white/[0.14] hover:bg-white/[0.22] backdrop-blur-2xl border border-white/30 shadow-[0_4px_16px_rgba(0,0,0,0.12)] ring-1 ring-inset ring-white/20 transition-all">
+        <button
+          id="login-quick-user-panel-btn"
+          type="button"
+          onClick={handleGoToUserPanel}
+          className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium text-slate-900 hover:bg-white/40 active:scale-95 transition-all cursor-pointer"
+          title="Open User Panel"
+        >
+          <User className="w-3.5 h-3.5" />
+          <span>User Panel</span>
+        </button>
+        <span className="w-px h-3.5 bg-slate-400/40" />
+        <button
+          id="login-quick-admin-panel-btn"
+          type="button"
+          onClick={handleGoToAdminPanel}
+          className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium text-slate-900 hover:bg-white/40 active:scale-95 transition-all cursor-pointer"
+          title="Open Admin Panel"
+        >
+          <Shield className="w-3.5 h-3.5" />
+          <span>Admin Panel</span>
+        </button>
+      </div>
+
       {/* Center Container */}
       <div className="relative w-full max-w-[390px] z-10 flex flex-col items-center my-auto px-2">
         <motion.div
@@ -138,8 +195,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="w-full flex flex-col"
         >
-          {/* Headings */}
-          <div className="text-center mb-6">
+          {/* Headings with App Logo */}
+          <div className="text-center mb-6 flex flex-col items-center">
+            <div className="w-12 h-12 rounded-2xl bg-white/40 dark:bg-white/10 backdrop-blur-md border border-white/60 p-2.5 shadow-sm mb-3 flex items-center justify-center">
+              <img src={appLogo} alt="FitTrack Logo" className="w-full h-full object-contain" />
+            </div>
             <h1 className="text-[28px] sm:text-[32px] font-semibold text-slate-900 tracking-tight">
               Welcome Back
             </h1>
@@ -272,6 +332,27 @@ export const LoginPage: React.FC<LoginPageProps> = ({
             className="text-slate-950 font-medium hover:underline cursor-pointer transition-colors"
           >
             Sign up
+          </button>
+        </div>
+
+        {/* Minimal Quick Switch Pill to Admin and User Panels */}
+        <div className="mt-4 flex items-center justify-center gap-2">
+          <span className="text-[12px] text-slate-800/80 font-medium">Quick switch:</span>
+          <button
+            id="login-bottom-user-panel-btn"
+            type="button"
+            onClick={handleGoToUserPanel}
+            className="px-2.5 py-1 rounded-full text-[12px] font-medium bg-white/[0.16] hover:bg-white/[0.30] text-slate-900 backdrop-blur-md border border-white/30 transition-all cursor-pointer shadow-sm"
+          >
+            User Panel
+          </button>
+          <button
+            id="login-bottom-admin-panel-btn"
+            type="button"
+            onClick={handleGoToAdminPanel}
+            className="px-2.5 py-1 rounded-full text-[12px] font-medium bg-white/[0.16] hover:bg-white/[0.30] text-slate-900 backdrop-blur-md border border-white/30 transition-all cursor-pointer shadow-sm"
+          >
+            Admin Panel
           </button>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { X, Flame, Info, Beef, Wheat, Droplet } from 'lucide-react';
 import { useUnits } from '../context/UnitContext';
 

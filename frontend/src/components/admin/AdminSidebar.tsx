@@ -18,6 +18,7 @@ import {
 import { UserRole } from '../../types/fitness';
 import { useAuth } from '../../context/AuthContext';
 import { AdminPreferencesModal } from './AdminPreferencesModal';
+import appLogo from '../../assets/images/app_logo.svg';
 
 interface AdminSidebarProps {
   currentAdminRoute: 'analytics' | 'users';
@@ -79,15 +80,15 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
         {/* TOP SECTION: Clean Lucide Brand Logo + Navigation Stack */}
         {/* ========================================================================= */}
         <div className="flex flex-col items-center gap-7 w-full">
-          {/* Brand Logo: Clean Lucide Zap/Sparkles Icon */}
+          {/* Brand Logo: Clean Official FitTrack App Icon */}
           <button
             id="sidebar-brand-logo"
             onClick={() => onNavigate('analytics')}
-            className="w-11 h-11 rounded-full bg-[#C4FA2A] flex items-center justify-center cursor-pointer group focus:outline-none transition-transform hover:scale-105 shadow-sm"
+            className="w-11 h-11 rounded-2xl bg-white/10 dark:bg-white/5 border border-white/15 flex items-center justify-center cursor-pointer group focus:outline-none transition-transform hover:scale-105 shadow-sm p-2"
             title="FitTrack Admin - Analytics Dashboard"
             aria-label="FitTrack Admin"
           >
-            <Sparkles className="w-5 h-5 text-[#131418] stroke-[2.5]" />
+            <img src={appLogo} alt="FitTrack Logo" className="w-7 h-7 object-contain drop-shadow-xs" />
           </button>
 
           {/* Upper Navigation Stack */}

@@ -27,6 +27,7 @@ import { ReportModal } from './components/ReportModal';
 import { OnboardingModal } from './components/OnboardingModal';
 import { AdminLayout } from './components/admin/AdminLayout';
 import { AiCoachWidget } from './components/AiCoachWidget';
+import { NotificationsSidebar } from './components/NotificationsSidebar';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -52,6 +53,18 @@ export default function App() {
 }
 
 function AppInner() {
+  // Reset stored login session so the user can register and go through onboarding fresh
+  try {
+    const hasReset = sessionStorage.getItem('fittrack_auth_reset_done');
+    if (!hasReset) {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('user');
+      localStorage.removeItem('guest_onboarding_completed');
+      sessionStorage.setItem('fittrack_auth_reset_done', 'true');
+    }
+  } catch {}
+
   // Handle any remaining OAuth callback tokens from URL
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -93,18 +106,13 @@ function AppInner() {
       return 'app';
     }
 
-    // 4. Default main landing page for root / and /welcome
-    if (path === '/' || path === '' || path === '/welcome') return 'welcome';
-    // 5. Public auth routes
+    // 4. Default to signup screen so user can register and see onboarding
     if (path === '/login') return 'login';
-    if (path === '/signup') return 'signup';
+    if (path === '/welcome') return 'welcome';
     if (path === '/forgot-password') return 'forgot-password';
     if (path.startsWith('/auth/callback')) return 'login';
 
-    // 6. If unauthenticated user tries to access protected pages (/admin, /admin/users, /workouts, etc.):
-    // Redirect immediately to /login
-    window.history.replaceState({}, '', '/login');
-    return 'login';
+    return 'signup';
   };
 
   // Navigation & Authentication View State ('welcome', 'login', 'signup', 'forgot-password', 'app')
@@ -258,6 +266,8 @@ function AppInner() {
   const [quickLogType, setQuickLogType] = useState<'workout' | 'meal' | 'water' | 'weight'>('workout');
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [isOnboardingOpen, setIsOnboardingOpen] = useState(false);
+  const [isAiCoachOpen, setIsAiCoachOpen] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
   useEffect(() => {
     if (authScreen === 'app') {
@@ -478,6 +488,7 @@ function AppInner() {
       message,
       timeAgo: 'Just now',
       unread: true,
+      type: (type === 'success' ? 'achievement' : 'reminder'),
     };
     setNotifications((prev) => [newNotif, ...prev]);
     setToastNotification({ id: newNotif.id, title, message, type });
@@ -900,6 +911,7 @@ function AppInner() {
           onNavigateToLogin={() => setAuthScreen('login')}
           userRole={(user?.role as any) || 'user'}
           onOpenAdminPanel={() => navigateToAdmin('analytics')}
+          onOpenNotifications={() => setIsNotificationsOpen(true)}
         />
 
         {/* Dashboard Main Content Body */}
@@ -1034,12 +1046,15 @@ function AppInner() {
       </AnimatePresence>
 
       {/* Floating Bottom Navigation Bar for Mobile */}
-      <BottomFloatingBar
-        activeTab={activeNavTab}
-        onTabChange={setActiveNavTab}
-        onOpenQuickLog={() => handleOpenQuickLog('workout')}
-        isDarkMode={isDarkMode}
-      />
+      {!isAiCoachOpen && (
+        <BottomFloatingBar
+          activeTab={activeNavTab}
+          onTabChange={setActiveNavTab}
+          onOpenQuickLog={() => handleOpenQuickLog('workout')}
+          isDarkMode={isDarkMode}
+          isHidden={isAiCoachOpen}
+        />
+      )}
 
       {/* Quick Log Modal */}
       <QuickLogModal
@@ -1071,6 +1086,15 @@ function AppInner() {
         isDarkMode={isDarkMode}
       />
 
+      {/* Right-Docked Notifications Sidebar matching AI Coach Design System */}
+      <NotificationsSidebar
+        isOpen={isNotificationsOpen}
+        onClose={() => setIsNotificationsOpen(false)}
+        notifications={notifications}
+        onMarkAllRead={handleMarkNotificationsRead}
+        isDarkMode={isDarkMode}
+      />
+
       {/* Interactive AI Fitness Coach Floating Chatbot (Bottom-Right, Logged-in only) */}
       <AiCoachWidget
         onNavigateTab={(tab) => {
@@ -1080,6 +1104,19 @@ function AppInner() {
         onOpenQuickLog={(type) => handleOpenQuickLog(type)}
         onQuickAddWater={handleQuickAddWater}
         isDarkMode={isDarkMode}
+        onOpenChange={setIsAiCoachOpen}
+        userData={{
+          name: user?.name,
+          fitnessGoal: user?.fitnessGoal,
+          weight: user?.weight,
+          targetWeight: user?.targetWeight,
+          weightUnit: user?.weightUnit,
+          calorieGoal: user?.calorieGoal || kpis.calories.goal,
+          waterGoalMl: user?.waterGoalMl || kpis.water.goal,
+          currentCalories: kpis.calories.value,
+          currentWaterMl: kpis.water.value,
+          workoutsCount: workouts.length,
+        }}
       />
     </div>
   );

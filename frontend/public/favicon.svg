@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- FitTrack Aerodynamic Geometric F Brand Logo Favicon -->
+  <g fill="#84CC16">
+    <!-- Top Swept Aerodynamic Wing -->
+    <path d="M 130 310 C 130 195 200 142 388 142 C 326 172 268 188 214 188 C 204 188 200 192 200 202 L 200 236 L 130 310 Z" />
+    
+    <!-- Middle Leaf Bar & Lower Stem -->
+    <path d="M 166 280 L 244 222 C 268 220 292 220 330 222 C 298 250 262 278 206 280 L 202 334 C 202 352 188 360 166 360 L 138 360 C 132 360 128 356 128 350 L 128 322 L 166 280 Z" />
+  </g>
+</svg>

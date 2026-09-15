@@ -1,7 +1,7 @@
 import { User } from '../types/fitness';
 import { AdminAnalyticsData, AdminUsersQuery, AdminUsersResponse } from '../types/admin';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5050/api';
+const API_BASE = import.meta.env.VITE_API_BASE || '/api';
 
 function getAuthHeaders(): HeadersInit {
   const token = localStorage.getItem('accessToken');

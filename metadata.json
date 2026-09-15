@@ -1,0 +1,6 @@
+{
+  "name": "FitTrack",
+  "description": "Fitness Tracker & Health Performance Dashboard with real-time stats, workout and meal logging, and AI health coaching.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

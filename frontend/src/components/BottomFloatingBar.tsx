@@ -8,6 +8,7 @@ interface BottomFloatingBarProps {
   onTabChange?: (tabId: string) => void;
   onOpenQuickLog?: () => void;
   isDarkMode?: boolean;
+  isHidden?: boolean;
 }
 
 // Custom crisp SVG Icons styled exactly as the reference image
@@ -55,7 +56,12 @@ export const BottomFloatingBar: React.FC<BottomFloatingBarProps> = ({
   activeTab,
   onSelectTab,
   onTabChange,
+  isHidden = false,
 }) => {
+  if (isHidden) {
+    return null;
+  }
+
   const handleSelect = (id: string) => {
     if (onSelectTab) onSelectTab(id);
     if (onTabChange) onTabChange(id);
